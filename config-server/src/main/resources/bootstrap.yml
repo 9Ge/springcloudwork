@@ -1,0 +1,37 @@
+server:
+  port: 9090
+
+spring:
+  application:
+    name: config-server
+  cloud:                                                  #config服务端，从git拉取数据
+    config:
+      server:
+        git:
+          uri: https://github.com/****/config-repo        # 配置git仓库的地址
+          username:                                       # git仓库的账号
+          password:                                       # git仓库的密码
+          search-paths: /*/*/*,/*                         #仓库下配置文件搜索路径
+  rabbitmq:					#本地环境不需要配置mq，但是需要启动mq,Springboot会自动连接本地mq
+    host: localhost
+    port: 5672
+    username: guest
+    password: guest
+
+eureka:                         #注册服务
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8761/eureka/
+      #defaultZone: http://localhost:8761/eureka/,http://localhost:8762/eureka/	#eureka高可用
+
+management:                    #SpringCloud 1.5版本暴露接口，暴露/bus-refresh接口
+  security:
+    enabled: false
+#  endpoints:                  #SpringCloud 2.0.0版本以后暴露接口方式
+#    web:
+#      exposure:
+#        include: "*"
+
+security:                       #是否开启基本的鉴权，默认为true
+  basic:
+    enabled: false
